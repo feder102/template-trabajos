@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <!-- Chosen Palette: Calm Neutral (White, Gray-50, Gray-800, Teal accents) -->
+    <!-- Application Structure Plan: A single-page, vertical scrolling application with a sticky top navigation bar. The structure is redesigned from a single-project proposal to a multi-package service sales page. The new IA is: Hero (Intro) -> Packages (3-column pricing table) -> Features (Common to all) -> Process (How we work) -> Contact. This is a standard, high-conversion layout for a service-based business, making it easy for users to compare options and understand the value proposition. -->
+    <!-- Visualization & Content Choices: 1. Report Info: 3 Package Tiers -> Goal: Compare -> Viz/Method: 3-column responsive grid (classic pricing table) -> Interaction: Hover effects on cards -> Justification: Clearest way to present tiered options. Method: HTML/Tailwind. 2. Report Info: Key Features (Responsivo, Moderno, etc.) -> Goal: Inform -> Viz/Method: 4-column Tailwind grid with Unicode icons (📱, ✨) -> Interaction: Visual grouping -> Justification: Re-used from original design, still effective for scannable features. Method: HTML/Tailwind. 3. Report Info: Payment/Process -> Goal: Clarify -> Viz/Method: Simplified 3-step horizontal list. -> Interaction: None. -> Justification: The donut chart for 50/50 payment is no longer relevant in a multi-package context; a simple text description is clearer. Method: HTML/Tailwind. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Desarrollo web profesional - Sitios institucionales, E-commerce y Automatización. Transformamos tu negocio digital.">
+    <meta name="keywords" content="desarrollo web, diseño web, e-commerce, tienda online, automatización, sitios web profesionales">
+    <meta name="author" content="Tu Nombre">
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+    <title>Desarrollo Web Profesional | Servicios de Diseño y Desarrollo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#f0fdfa',
+                100: '#ccfbf1',
+                200: '#99f6e4',
+                300: '#5eead4',
+                400: '#2dd4bf',
+                500: '#14b8a6',
+                600: '#0d9488',
+                700: '#0f766e',
+                800: '#115e59',
+                900: '#134e4a',
+                950: '#042f2e',
+              },
+              accent: {
+                50: '#faf5ff',
+                100: '#f3e8ff',
+                200: '#e9d5ff',
+                300: '#d8b4fe',
+                400: '#c084fc',
+                500: '#a855f7',
+                600: '#9333ea',
+                700: '#7e22ce',
+                800: '#6b21a8',
+                900: '#581c87',
+              },
+            },
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'gradient': 'gradient 8s ease infinite',
+              'slide-up': 'slideUp 0.5s ease-out',
+              'slide-down': 'slideDown 0.5s ease-out',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              gradient: {
+                '0%, 100%': { backgroundPosition: '0% 50%' },
+                '50%': { backgroundPosition: '100% 50%' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(100px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              slideDown: {
+                '0%': { transform: 'translateY(-100px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+            },
+            backgroundSize: {
+              '300%': '300% 300%',
+            },
+          },
+        },
+      }
+    </script>
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+        
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.02em;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .nav-link-active {
+            color: #0d9488;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .nav-link-active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #14b8a6, #a855f7);
+            border-radius: 2px;
+        }
+        
+        .package-card {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .package-card:hover::before {
+            left: 100%;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-16px) scale(1.02);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25),
+                        0 0 0 1px rgba(20, 184, 166, 0.1);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 300% 300%;
+            animation: gradient 8s ease infinite;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #14b8a6 0%, #a855f7 50%, #ec4899 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 8s ease infinite;
+        }
+        
+        .gradient-border {
+            border: 2px solid transparent;
+            background-image: linear-gradient(white, white), 
+                              linear-gradient(135deg, #14b8a6, #a855f7);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.03em;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .text-shadow {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(20, 184, 166, 0.4),
+                        0 0 60px rgba(168, 85, 247, 0.2);
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <header class="sticky top-0 bg-white/90 backdrop-blur-xl shadow-lg border-b border-gray-100/20 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3 group">
+                <div class="w-12 h-12 bg-gradient-to-br from-primary-500 via-primary-600 to-accent-600 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300">
+                    <span class="text-white font-bold text-2xl font-display">D</span>
+                </div>
+                <span class="text-2xl font-bold gradient-text font-display hover:scale-105 transition-transform cursor-pointer">Diseña con nosotros</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#inicio" class="nav-link text-gray-700 hover:text-primary-600 transition-all duration-300 font-medium hover:scale-110 relative">Inicio</a>
+                <a href="#paquetes" class="nav-link text-gray-700 hover:text-primary-600 transition-all duration-300 font-medium hover:scale-110 relative">Paquetes</a>
+                <a href="#caracteristicas" class="nav-link text-gray-700 hover:text-primary-600 transition-all duration-300 font-medium hover:scale-110 relative">Características</a>
+                <a href="#proceso" class="nav-link text-gray-700 hover:text-primary-600 transition-all duration-300 font-medium hover:scale-110 relative">Proceso</a>
+                <a href="#contacto" class="nav-link bg-gradient-to-r from-primary-600 to-accent-600 text-white px-6 py-2.5 rounded-full hover:from-primary-700 hover:to-accent-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-semibold">Contacto</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                    <span class="text-2xl">&#9776;</span>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg">
+            <a href="#inicio" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Inicio</a>
+            <a href="#paquetes" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Paquetes</a>
+            <a href="#caracteristicas" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Características</a>
+            <a href="#proceso" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Proceso</a>
+            <a href="#contacto" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Contacto</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="relative py-24 md:py-40 overflow-hidden">
+            <!-- Fondo con gradiente animado -->
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-purple-50 to-pink-50 opacity-80"></div>
+            
+            <!-- Elementos flotantes decorativos -->
+            <div class="absolute top-20 right-10 w-96 h-96 bg-gradient-to-br from-primary-200 to-primary-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-float"></div>
+            <div class="absolute bottom-20 left-10 w-96 h-96 bg-gradient-to-br from-accent-200 to-accent-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-pink-200 to-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay: 4s;"></div>
+            
+            <!-- Patrón de puntos de fondo -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(20,184,166,0.15)_1px,transparent_0)] [background-size:40px_40px]"></div>
+            
+            <div class="container mx-auto px-6 text-center relative z-10">
+                               
+                <h1 class="text-6xl md:text-8xl font-black text-gray-900 fade-in-up leading-tight" style="animation-delay: 0.1s;">
+                    Hacemos Crecer
+                    <br>
+                    <span class="gradient-text text-shadow font-display">Tu Negocio Digital</span>
+                </h1>
+                
+                <p class="max-w-4xl mx-auto text-xl md:text-3xl text-gray-600 mt-10 leading-relaxed fade-in-up font-light" style="animation-delay: 0.2s;">
+                    Diseño y desarrollo web <span class="font-semibold text-primary-600">a la medida</span> de tus objetivos.
+                    <br class="hidden md:block">
+                    Soluciones que <span class="font-semibold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">convierten visitantes en clientes</span>.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center mt-14 fade-in-up" style="animation-delay: 0.3s;">
+                    <a href="#paquetes" class="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-primary-600 via-primary-700 to-accent-600 text-white px-12 py-5 rounded-2xl text-lg font-bold hover:from-primary-700 hover:via-primary-800 hover:to-accent-700 transition-all transform hover:scale-105 shadow-2xl hover:shadow-primary-500/50 overflow-hidden">
+                        <span class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
+                        <span class="relative">Ver Paquetes</span>
+                        <svg class="relative w-6 h-6 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                    <a href="#contacto" class="group inline-flex items-center justify-center gap-3 bg-white/90 backdrop-blur-md text-primary-700 border-2 border-primary-600 px-12 py-5 rounded-2xl text-lg font-bold hover:bg-primary-50 hover:border-accent-600 transition-all hover:scale-105 shadow-xl">
+                        <svg class="w-6 h-6 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        <span>Contactar</span>
+                    </a>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-24 max-w-5xl mx-auto">
+                    <div class="text-center group cursor-pointer">
+                        <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-primary-100">
+                            <div class="stat-number group-hover:scale-110 transition-transform">10+</div>
+                            <p class="text-gray-700 font-semibold mt-3 text-lg">Proyectos</p>
+                            <p class="text-gray-500 text-sm mt-1">Completados</p>
+                        </div>
+                    </div>
+                    <div class="text-center group cursor-pointer">
+                        <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-accent-100">
+                            <div class="stat-number group-hover:scale-110 transition-transform">100%</div>
+                            <p class="text-gray-700 font-semibold mt-3 text-lg">Satisfacción</p>
+                            <p class="text-gray-500 text-sm mt-1">Clientes felices</p>
+                        </div>
+                    </div>
+                    <div class="text-center group cursor-pointer">
+                        <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-primary-100">
+                            <div class="stat-number group-hover:scale-110 transition-transform">24/7</div>
+                            <p class="text-gray-700 font-semibold mt-3 text-lg">Soporte</p>
+                            <p class="text-gray-500 text-sm mt-1">Siempre disponible</p>
+                        </div>
+                    </div>
+                    <div class="text-center group cursor-pointer">
+                        <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-accent-100">
+                            <div class="stat-number group-hover:scale-110 transition-transform">3-15</div>
+                            <p class="text-gray-700 font-semibold mt-3 text-lg">Días entrega</p>
+                            <p class="text-gray-500 text-sm mt-1">Rápido y eficiente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="paquetes" class="py-24 bg-gradient-to-b from-white to-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <span class="inline-block bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-bold mb-4">💼 PLANES Y PRECIOS</span>
+                    <h2 class="text-5xl md:text-6xl font-black text-gray-900 mb-6">Nuestros Paquetes</h2>
+                    <p class="text-xl text-gray-600 leading-relaxed">
+                        Soluciones claras y escalables diseñadas para tu éxito.
+                        <br>
+                        <span class="font-semibold text-primary-600">Hosting y dominio bonificados por 1 año</span> en todos los planes.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+                    
+                    <div class="package-card bg-gradient-to-br from-white to-gray-50 p-10 rounded-3xl shadow-xl border-2 border-gray-200 flex flex-col hover:border-primary-400 group">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-14 h-14 bg-gradient-to-br from-primary-400 to-primary-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                            </div>
+                            <span class="text-primary-600 font-bold text-sm bg-primary-50 px-3 py-1 rounded-full">Profesional</span>
+                        </div>
+                        <h3 class="text-3xl font-black text-gray-900 mb-3">Institucional</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-5xl font-black text-gray-900">$200K</span>
+                            <span class="text-xl font-medium text-gray-500 ml-2">ARS</span>
+                        </div>
+                        <p class="text-gray-600 mb-8 leading-relaxed">La base ideal para empresas, profesionales y servicios que buscan presencia digital sólida.</p>
+                        <ul class="space-y-4 text-gray-700 mb-10 flex-grow">
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Hasta 4-5 Secciones completas</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Formulario de Contacto Avanzado</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Integración con Blog o Galería</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Mapa de Google Maps integrado</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Enlaces a Redes Sociales</span>
+                            </li>
+                        </ul>
+                        <a href="#contacto" class="group/btn block w-full text-center bg-gradient-to-r from-primary-600 to-primary-700 text-white px-8 py-4 rounded-2xl font-bold hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg hover:shadow-xl hover:scale-105 relative overflow-hidden">
+                            <span class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></span>
+                            <span class="relative">Comenzar Ahora</span>
+                        </a>
+                    </div>
+                    
+                    <div class="package-card bg-gradient-to-br from-white to-gray-50 p-10 rounded-3xl shadow-xl border-2 border-primary-300 flex flex-col relative hover:border-primary-400 group">
+                        <!-- Badge Más Popular dentro de la tarjeta -->
+                        <div class="absolute top-4 right-4">
+                            <span class="inline-flex items-center gap-2 bg-gradient-to-r from-primary-600 to-accent-600 text-white text-xs font-black px-4 py-2 rounded-full uppercase shadow-lg">
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                Más Popular
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-14 h-14 bg-gradient-to-br from-primary-400 to-primary-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                            </div>
+                            <span class="text-primary-600 font-bold text-sm bg-primary-50 px-3 py-1 rounded-full">Premium</span>
+                        </div>
+                        <h3 class="text-3xl font-black text-gray-900 mb-3">E-commerce</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-5xl font-black text-gray-900">$300K</span>
+                            <span class="text-xl font-medium text-gray-500 ml-2">ARS</span>
+                        </div>
+                        <p class="text-gray-600 mb-8 leading-relaxed">Vende tus productos y servicios en línea 24/7. La solución completa para tu tienda.</p>
+                        <ul class="space-y-4 text-gray-700 mb-10 flex-grow">
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Todo lo del plan Institucional</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Tienda Online Completa</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Carrito de Compras optimizado</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Integración con Pasarelas de Pago</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Carga inicial de productos</span>
+                            </li>
+                        </ul>
+                        <a href="#contacto" class="group/btn block w-full text-center bg-gradient-to-r from-primary-600 to-primary-700 text-white px-8 py-4 rounded-2xl font-bold hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg hover:shadow-xl hover:scale-105 relative overflow-hidden">
+                            <span class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></span>
+                            <span class="relative">Comenzar Ahora</span>
+                        </a>
+                    </div>
+
+                    <div class="package-card bg-gradient-to-br from-white to-gray-50 p-10 rounded-3xl shadow-xl border-2 border-gray-200 flex flex-col hover:border-accent-400 group">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-14 h-14 bg-gradient-to-br from-primary-400 to-primary-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <span class="text-primary-600 font-bold text-sm bg-primary-50 px-3 py-1 rounded-full">Enterprise</span>
+                        </div>
+                        <h3 class="text-3xl font-black text-gray-900 mb-3">Automatización</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-5xl font-black text-gray-900">$500K</span>
+                            <span class="text-xl font-medium text-gray-500 ml-2">ARS</span>
+                        </div>
+                        <p class="text-gray-600 mb-8 leading-relaxed">Optimiza tu negocio con automatizaciones inteligentes a medida de tus procesos.</p>
+                        <ul class="space-y-4 text-gray-700 mb-10 flex-grow">
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Todo lo del plan Institucional</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Generación de reportes (Excel, PDF)</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Respuesta automática de emails</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Integración con sistemas (Facturas, etc.)</span>
+                            </li>
+                            <li class="flex items-start group/item">
+                                <span class="inline-flex items-center justify-center w-6 h-6 bg-primary-100 text-primary-600 rounded-full mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform">✓</span>
+                                <span class="font-medium">Conexión con APIs y Webhooks</span>
+                            </li>
+                        </ul>
+                        <a href="#contacto" class="group/btn block w-full text-center bg-gradient-to-r from-primary-600 to-primary-700 text-white px-8 py-4 rounded-2xl font-bold hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg hover:shadow-xl hover:scale-105 relative overflow-hidden">
+                            <span class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700"></span>
+                            <span class="relative">Comenzar Ahora</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="caracteristicas" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Incluido en todos los Paquetes</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600 mt-4">
+                        No importa el plan que elijas, te garantizamos una base de calidad profesional para tu proyecto.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-4xl">📱</span>
+                        <h3 class="text-xl font-semibold text-gray-900 mt-4">Diseño Responsivo</h3>
+                        <p class="text-gray-600 mt-2">Perfecta visualización en todos los dispositivos.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-4xl">✨</span>
+                        <h3 class="text-xl font-semibold text-gray-900 mt-4">Diseño Moderno</h3>
+                        <p class="text-gray-600 mt-2">Estética limpia y profesional que refleja tu marca.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-4xl">⚡</span>
+                        <h3 class="text-xl font-semibold text-gray-900 mt-4">Optimización</h3>
+                        <p class="text-gray-600 mt-2">Tiempos de carga rápidos para una mejor experiencia.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <span class="text-4xl">🧭</span>
+                        <h3 class="text-xl font-semibold text-gray-900 mt-4">Navegación Intuitiva</h3>
+                        <p class="text-gray-600 mt-2">Una estructura clara que guía a tus usuarios.</p>
+                    </div>
+                </div>
+                
+                <div class="max-w-2xl mx-auto mt-16 bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-gray-900 text-center mb-6">Además, siempre incluimos:</h3>
+                     <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center">
+                            <span class="text-green-500 text-2xl mr-4">✅</span>
+                            Gestión y registro de dominio (.com.ar o .com) bonificado por 1 año.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 text-2xl mr-4">✅</span>
+                            Alojamiento (hosting) básico bonificado por 1 año.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 text-2xl mr-4">✅</span>
+                            Pruebas de calidad (testing) y entrega final.
+                        </li>
+                         <li class="flex items-center">
+                            <span class="text-green-500 text-2xl mr-4">✅</span>
+                            Integración con Google Maps y enlaces a redes sociales.
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="proceso" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Nuestro Proceso</h2>
+                    <p class="max-w-3xl mx-auto text-lg text-gray-600 mt-4">
+                        Trabajamos de forma simple y transparente en 3 pasos.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-5xl mx-auto text-center">
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-sm">
+                        <div class="text-4xl font-bold text-teal-600 mb-4">1</div>
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Reunión y Pago</h3>
+                        <p class="text-gray-600">Definimos el alcance y se abona el 50% de anticipo para iniciar.</p>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-sm">
+                        <div class="text-4xl font-bold text-teal-600 mb-4">2</div>
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Diseño y Desarrollo</h3>
+                        <p class="text-gray-600">Creamos tu sitio web. Te mostramos avances y ajustamos detalles.</p>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-sm">
+                        <div class="text-4xl font-bold text-teal-600 mb-4">3</div>
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Entrega y Lanzamiento</h3>
+                        <p class="text-gray-600">Con tu aprobación, se abona el 50% restante y publicamos tu web.</p>
+                    </div>
+                </div>
+
+                 <div class="text-center mt-12">
+                     <p class="text-gray-600 text-lg">
+                        ¿Necesitas mantenimiento mensual? <a href="#contacto" class="text-teal-600 font-medium hover:underline">Consúltanos</a> por un plan a medida.
+                     </p>
+                 </div>
+            </div>
+        </section>
+
+        <section id="testimonios" class="py-20 bg-gradient-to-br from-teal-600 to-teal-800 text-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold">Lo Que Dicen Nuestros Clientes</h2>
+                    <p class="text-teal-100 text-lg mt-4">Casos de éxito reales</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-teal-300 rounded-full flex items-center justify-center text-teal-900 font-bold text-xl">M</div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-lg">María González</h4>
+                                <p class="text-teal-200 text-sm">Dueña de Boutique Online</p>
+                            </div>
+                        </div>
+                        <p class="text-teal-50 leading-relaxed">"El paquete E-commerce superó mis expectativas. Ahora vendo las 24 horas y mis ventas aumentaron un 200%. ¡Excelente trabajo!"</p>
+                        <div class="mt-4 text-yellow-300">★★★★★</div>
+                    </div>
+                    
+                    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-teal-300 rounded-full flex items-center justify-center text-teal-900 font-bold text-xl">C</div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-lg">Carlos Fernández</h4>
+                                <p class="text-teal-200 text-sm">Estudio Contable</p>
+                            </div>
+                        </div>
+                        <p class="text-teal-50 leading-relaxed">"La automatización de reportes me ahorra 10 horas semanales. Profesionalismo y atención al detalle de primer nivel."</p>
+                        <div class="mt-4 text-yellow-300">★★★★★</div>
+                    </div>
+                    
+                    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-teal-300 rounded-full flex items-center justify-center text-teal-900 font-bold text-xl">L</div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-lg">Laura Martínez</h4>
+                                <p class="text-teal-200 text-sm">Arquitecta</p>
+                            </div>
+                        </div>
+                        <p class="text-teal-50 leading-relaxed">"Mi sitio institucional refleja perfectamente mi trabajo. Elegante, rápido y consigo más consultas cada semana."</p>
+                        <div class="mt-4 text-yellow-300">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contacto" class="py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">¿Listo para comenzar?</h2>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+                    Contáctanos para discutir tu proyecto o ajustar un paquete a tus necesidades específicas.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto mb-12">
+                <div class="text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-700 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">W</span>
+                        </div>
+                        <span class="text-2xl font-bold text-white">Diseña con nosotros</span>
+                    </div>
+                    <p class="text-gray-400">Transformamos ideas en experiencias digitales exitosas.</p>
+                </div>
+                
+                <div class="text-center md:text-left">
+                    <h3 class="text-xl font-semibold mb-4">Contacto</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>📧 tresrabas@gmail.com</li>
+                        <li>📱 +54 9 11 1234-5678</li>
+                        <li>📍 San Juan, Argentina</li>
+                    </ul>
+                </div>
+                
+                <div class="text-center md:text-left">
+                    <h3 class="text-xl font-semibold mb-4">Síguenos</h3>
+                    <div class="flex space-x-4 justify-center md:justify-start">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-teal-600 transition-colors">
+                            <span class="text-lg">f</span>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-teal-600 transition-colors">
+                            <span class="text-lg">𝕏</span>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-teal-600 transition-colors">
+                            <span class="text-lg">in</span>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-teal-600 transition-colors">
+                            <span class="text-lg">IG</span>
+                        </a>
+                    </div>
+                    <div class="mt-6">
+                        <a href="#contacto" class="inline-block bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700 transition-all">
+                            Solicitar Presupuesto
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 FedeC. Todos los derechos reservados. | <a href="#" class="hover:text-teal-400">Términos</a> | <a href="#" class="hover:text-teal-400">Privacidad</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "webpro-template",
+  "version": "1.0.0",
+  "description": "Plantilla profesional de desarrollo web para vender servicios a clientes",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve",
+    "dev": "npx live-server"
+  },
+  "keywords": [
+    "web",
+    "template",
+    "tailwind",
+    "responsive",
+    "professional"
+  ],
+  "author": "Tu Nombre",
+  "license": "MIT"
+}
