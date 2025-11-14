@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0fdfa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ccfbf1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+  <circle cx="400" cy="300" r="120" fill="#14b8a6" opacity="0.2"/>
+  <circle cx="400" cy="300" r="80" fill="#14b8a6" opacity="0.3"/>
+  <path d="M 300 300 L 400 250 L 500 300 L 450 400 L 350 400 Z" fill="#0d9488" opacity="0.8"/>
+  <text x="400" y="480" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#0f766e" text-anchor="middle">WebPro</text>
+  <text x="400" y="520" font-family="Arial, sans-serif" font-size="18" fill="#14b8a6" text-anchor="middle">Desarrollo Web Profesional</text>
+</svg>
