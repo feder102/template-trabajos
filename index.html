@@ -694,6 +694,24 @@
     </footer>
 
     <script src="./public/js/main.js"></script>
+    
+    <!-- Chatbot con Gemini AI -->
+    <script src="./js/env-loader.js"></script>
+    <script src="./js/chatbot.js"></script>
+    <script>
+        // Cargar API Key desde archivo .env
+        document.addEventListener('DOMContentLoaded', async () => {
+            const env = await envLoader.load();
+            const GEMINI_API_KEY = env.GEMINI_API_KEY;
+            
+            if (!GEMINI_API_KEY || GEMINI_API_KEY === 'TU_API_KEY_AQUI') {
+                console.warn('⚠️ CHATBOT: Por favor, crea un archivo .env con tu Google Gemini API Key');
+                console.warn('📝 Pasos:\n1. Copia .env.example como .env\n2. Reemplaza TU_API_KEY_AQUI con tu API Key real\n3. Obtén tu clave en: https://makersuite.google.com/app/apikey');
+            } else {
+                chatbot.init(GEMINI_API_KEY);
+            }
+        });
+    </script>
 
 </body>
 </html>
