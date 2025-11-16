@@ -1,7 +1,7 @@
-// Chatbot con Google Gemini
-class GeminiChatbot {
+// Chatbot con Groq AI (Llama 3.1 - GRATIS y Rápido)
+export class GeminiChatbot {
     constructor() {
-        this.apiKey = ''; // Se configurará desde el HTML
+        this.apiKey = '';
         this.messages = [];
         this.isOpen = false;
         this.isInitialized = false;
@@ -55,7 +55,7 @@ class GeminiChatbot {
                     </div>
                     <div>
                         <div class="font-bold">Asistente Virtual</div>
-                        <div class="text-xs text-white/80">Powered by Gemini AI</div>
+                        <div class="text-xs text-white/80">Powered by Groq AI ⚡</div>
                     </div>
                 </div>
                 <button id="chatbot-close" class="hover:bg-white/20 rounded-full p-2 transition-colors">
@@ -229,41 +229,36 @@ class GeminiChatbot {
             this.removeTypingIndicator();
             console.error('❌ Error del chatbot:', error);
             
-            let errorMessage = '';
+            // Mensaje amigable SIN detalles técnicos
+            const userMessage = '🤖 Ey, me quedé sin palabras por un rato... ¡Pero tranqui! Hablá directamente con Guillermo, él te va a atender al toque 👇';
+            this.addMessage(userMessage);
             
-            if (error.message.includes('API Key')) {
-                errorMessage = '⚠️ Error de configuración: La API Key de Gemini no es válida. Por favor, verifica tu configuración en el archivo .env';
-            } else if (error.message.includes('CORS') || error.message.includes('Failed to fetch')) {
-                errorMessage = '⚠️ Error de conexión: No se puede acceder a la API de Gemini. Asegúrate de estar ejecutando el sitio desde un servidor local (no file://)';
-            } else if (error.message.includes('429')) {
-                // Error 429: Mensaje canchero para el usuario
-                errorMessage = '🤖 Ey, me quedé sin palabras por un rato... \n\n¡Pero tranqui! Hablá directamente con Guillermo, él te va a atender al toque 👇';
-                this.addMessage(errorMessage);
-                
-                // Agregar botón de WhatsApp
-                const messagesContainer = document.getElementById('chatbot-messages');
-                const whatsappBtn = document.createElement('div');
-                whatsappBtn.className = 'flex gap-2 justify-center mt-3';
-                whatsappBtn.innerHTML = `
-                    <a href="https://wa.me/5492645317435?text=Hola%20Guillermo!%20Vengo%20desde%20el%20chatbot%20de%20la%20web%20y%20necesito%20info%20sobre%20sus%20servicios%20🚀" 
-                       target="_blank" 
-                       rel="noopener"
-                       class="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-xl font-bold hover:from-green-600 hover:to-green-700 transition-all shadow-lg hover:shadow-xl hover:scale-105">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                        </svg>
-                        Hablar con Guillermo
-                    </a>
-                `;
-                messagesContainer.appendChild(whatsappBtn);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                return; // Salir después de mostrar el mensaje
+            // Solo para debugging en consola (no se muestra al usuario)
+            if (error.message === 'UNAUTHORIZED') {
+                console.warn('⚠️ DEV: Configura VITE_GROQ_API_KEY en .env.local');
+            } else if (error.message === 'RATE_LIMIT') {
+                console.warn('⏳ DEV: Límite de API alcanzado');
+            } else if (error.message === 'API_ERROR') {
+                console.warn('❌ DEV: Error de API');
             }
             
-            if (errorMessage) {
-                errorMessage += '\n\n💬 Mientras tanto, puedes contactarnos directamente:\n• WhatsApp: +54 9 264 531-7435\n• Email: tresrabas@gmail.com';
-                this.addMessage(errorMessage);
-            }
+            // Agregar botón de WhatsApp
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const whatsappBtn = document.createElement('div');
+            whatsappBtn.className = 'flex gap-2 justify-center mt-3';
+            whatsappBtn.innerHTML = `
+                <a href="https://wa.me/5492645317435?text=Hola%20Guillermo!%20Vengo%20desde%20el%20chatbot%20de%20la%20web%20y%20necesito%20info%20sobre%20sus%20servicios%20🚀" 
+                   target="_blank" 
+                   rel="noopener"
+                   class="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-xl font-bold hover:from-green-600 hover:to-green-700 transition-all shadow-lg hover:shadow-xl hover:scale-105">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                    </svg>
+                    Hablar con Guillermo
+                </a>
+            `;
+            messagesContainer.appendChild(whatsappBtn);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
         // Rehabilitar input
@@ -276,13 +271,12 @@ class GeminiChatbot {
         const maxRetries = 2;
 
         try {
-            // Detectar si estamos en producción (Vercel) o desarrollo (localhost)
             const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
             
             let response;
             
             if (isProduction) {
-                // En producción: usar API endpoint de Vercel (más seguro)
+                // En producción: usar API endpoint de Vercel
                 response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
@@ -306,16 +300,15 @@ class GeminiChatbot {
                             return this.callGeminiAPI(userMessage, retryCount + 1);
                         }
                         throw new Error('Límite de solicitudes alcanzado (429)');
-                    } else {
-                        throw new Error(`Error ${response.status} en la API`);
                     }
+                    throw new Error(`Error ${response.status} en la API`);
                 }
 
                 const data = await response.json();
                 return data.response;
                 
             } else {
-                // En desarrollo: llamada directa a Gemini (requiere .env)
+                // En desarrollo: llamada directa a Groq (GRATIS y RÁPIDO)
                 const systemPrompt = `Eres un asistente virtual profesional para WebPro, una empresa de desarrollo web en San Juan, Argentina. 
 
 Tu misión es ayudar a los visitantes del sitio web respondiendo sus preguntas de manera amigable, profesional y concisa.
@@ -340,55 +333,56 @@ CONTACTO PRINCIPAL:
 
 Responde la siguiente pregunta del usuario:`;
 
-                response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${this.apiKey}`, {
+                response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.apiKey}`
                     },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `${systemPrompt}\n\nPregunta: ${userMessage}`
-                            }]
-                        }],
-                        generationConfig: {
-                            temperature: 0.7,
-                            maxOutputTokens: 800,
-                            topP: 0.95,
-                            topK: 40
-                        }
+                        model: 'llama-3.3-70b-versatile', // Modelo actualizado y más potente
+                        messages: [
+                            {
+                                role: 'system',
+                                content: systemPrompt
+                            },
+                            {
+                                role: 'user',
+                                content: userMessage
+                            }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 800,
+                        top_p: 0.9
                     })
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => ({}));
-                    console.error('❌ Error de la API de Gemini:', errorData);
+                    console.error('❌ Error de la API de Groq:', errorData);
                     
-                    if (response.status === 400) {
-                        throw new Error('API Key inválida o mal configurada');
+                    if (response.status === 401) {
+                        throw new Error('UNAUTHORIZED');
                     } else if (response.status === 429) {
                         if (retryCount < maxRetries) {
-                            const waitTime = (retryCount + 1) * 5000;
-                            console.log(`⏳ Límite alcanzado. Esperando ${waitTime/1000}s antes de reintentar... (Intento ${retryCount + 1}/${maxRetries})`);
+                            const waitTime = (retryCount + 1) * 3000;
+                            console.log(`⏳ Límite alcanzado. Esperando ${waitTime/1000}s... (Intento ${retryCount + 1}/${maxRetries})`);
                             await new Promise(resolve => setTimeout(resolve, waitTime));
                             return this.callGeminiAPI(userMessage, retryCount + 1);
                         }
-                        throw new Error('Límite de solicitudes alcanzado (429)');
-                    } else if (response.status === 403) {
-                        throw new Error('API Key no tiene permisos o está deshabilitada');
-                    } else {
-                        throw new Error(`Error ${response.status} en la API de Gemini`);
+                        throw new Error('RATE_LIMIT');
                     }
+                    throw new Error('API_ERROR');
                 }
 
                 const data = await response.json();
                 
-                if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
-                    console.error('❌ Respuesta inválida de Gemini:', data);
+                if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+                    console.error('❌ Respuesta inválida de Groq:', data);
                     throw new Error('Respuesta inválida de la API');
                 }
                 
-                return data.candidates[0].content.parts[0].text;
+                return data.choices[0].message.content;
             }
         } catch (error) {
             console.error('❌ Error en callGeminiAPI:', error);
@@ -423,4 +417,4 @@ Responde la siguiente pregunta del usuario:`;
 }
 
 // Instancia global del chatbot
-const chatbot = new GeminiChatbot();
+export const chatbot = new GeminiChatbot();

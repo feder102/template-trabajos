@@ -1,4 +1,4 @@
-# 🚀 Desplegar en Vercel
+# 🚀 Deploy en Vercel con Vite
 
 ## Pasos para Desplegar
 
@@ -7,7 +7,7 @@
 Ve a tu proyecto en Vercel → **Settings** → **Environment Variables** y agrega:
 
 ```
-GEMINI_API_KEY = llllllGY72jmnW02KJvX_xxxxxx
+GEMINI_API_KEY = tu_api_key_aqui
 ```
 
 **Importante**: Marca las 3 opciones:
@@ -19,20 +19,21 @@ GEMINI_API_KEY = llllllGY72jmnW02KJvX_xxxxxx
 
 Asegúrate de que estos archivos existan en tu proyecto:
 
-- ✅ `vercel.json` - Configuración de Vercel
+- ✅ `vite.config.js` - Configuración de Vite
+- ✅ `vercel.json` - Configuración de Vercel  
 - ✅ `api/chat.js` - API endpoint para el chatbot
+- ✅ `src/main.js` - Punto de entrada
 - ✅ `index.html` - Página principal
-- ✅ Todos los archivos JS y CSS
 
 ### 3. Hacer Push y Deploy
 
 ```bash
 git add .
-git commit -m "Configuración para Vercel"
+git commit -m "Migración a Vite"
 git push origin main
 ```
 
-Vercel detectará automáticamente los cambios y hará el deploy.
+Vercel detectará automáticamente el proyecto Vite y hará el deploy.
 
 ### 4. Verificar Funcionamiento
 
@@ -41,9 +42,17 @@ Una vez desplegado:
 2. Prueba el chatbot haciendo clic en el botón flotante
 3. Envía un mensaje de prueba
 
+## 🔧 Build Settings (Detectado automáticamente)
+
+Vercel configura automáticamente:
+- **Framework Preset**: Vite
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Install Command**: `npm install`
+
 ## 🔒 Seguridad
 
-La API Key ahora está protegida en el backend de Vercel y NO se expone en el navegador. Esto es más seguro que tenerla en el archivo `.env` del frontend.
+La API Key está protegida en el backend de Vercel (archivo `/api/chat.js`) y NO se expone en el navegador.
 
 ## 🐛 Solución de Problemas
 
@@ -57,23 +66,31 @@ La API Key ahora está protegida en el backend de Vercel y NO se expone en el na
    - Ve a Vercel → Deployments → (último deploy) → Function Logs
    - Busca errores en `/api/chat`
 
-3. **Redeploy**:
+3. **Redeploy manualmente**:
    ```bash
    vercel --prod
    ```
 
-## 📝 Diferencias Local vs Producción
+## 📝 Desarrollo Local
 
-### Local (desarrollo):
-- Usa archivo `.env` local
-- Llamada directa a Gemini API desde el navegador
-- Requiere servidor local (`python -m http.server 8000`)
+```bash
+# Instalar dependencias
+npm install
 
-### Vercel (producción):
-- Variables de entorno de Vercel
-- Llamada a través de `/api/chat` (más seguro)
-- No requiere servidor, funciona directamente
+# Configurar .env.local
+copy .env.example .env.local
+# Edita .env.local con tu API Key
 
-## ✅ Todo Listo
+# Ejecutar en desarrollo
+npm run dev
 
-Tu proyecto ahora está optimizado para funcionar tanto en local como en Vercel sin cambios adicionales. El código detecta automáticamente el entorno y se comporta correctamente.
+# Build para producción
+npm run build
+```
+
+## ✅ Ventajas de Vite
+
+- ⚡ Hot Module Replacement ultrarrápido
+- 📦 Build optimizado con tree-shaking
+- 🔧 Zero config
+- 🚀 Deploy instantáneo en Vercel

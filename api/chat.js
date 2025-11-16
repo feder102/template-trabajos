@@ -1,4 +1,4 @@
-// API endpoint para proteger la API Key de Gemini
+// API endpoint para proteger la API Key de Groq
 export default async function handler(req, res) {
   // Solo permitir POST
   if (req.method !== 'POST') {
@@ -36,43 +36,44 @@ CONTACTO PRINCIPAL:
 Responde la siguiente pregunta del usuario:`;
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: `${systemPrompt}\n\nPregunta: ${message}`
-            }]
-          }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 800,
-            topP: 0.95,
-            topK: 40
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          {
+            role: 'system',
+            content: systemPrompt
+          },
+          {
+            role: 'user',
+            content: message
           }
-        })
-      }
-    );
+        ],
+        temperature: 0.7,
+        max_tokens: 800,
+        top_p: 0.9
+      })
+    });
 
     if (!response.ok) {
       const error = await response.json();
-      console.error('Gemini API error:', error);
+      console.error('Groq API error:', error);
       return res.status(response.status).json({ error: error.error || 'API error' });
     }
 
     const data = await response.json();
     
-    if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
       return res.status(500).json({ error: 'Invalid API response' });
     }
 
     return res.status(200).json({
-      response: data.candidates[0].content.parts[0].text
+      response: data.choices[0].message.content
     });
 
   } catch (error) {

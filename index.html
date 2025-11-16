@@ -13,71 +13,6 @@
     <meta name="author" content="Tu Nombre">
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
     <title>Desarrollo Web Profesional | Servicios de Diseño y Desarrollo</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: {
-                50: '#f0fdfa',
-                100: '#ccfbf1',
-                200: '#99f6e4',
-                300: '#5eead4',
-                400: '#2dd4bf',
-                500: '#14b8a6',
-                600: '#0d9488',
-                700: '#0f766e',
-                800: '#115e59',
-                900: '#134e4a',
-                950: '#042f2e',
-              },
-              accent: {
-                50: '#faf5ff',
-                100: '#f3e8ff',
-                200: '#e9d5ff',
-                300: '#d8b4fe',
-                400: '#c084fc',
-                500: '#a855f7',
-                600: '#9333ea',
-                700: '#7e22ce',
-                800: '#6b21a8',
-                900: '#581c87',
-              },
-            },
-            animation: {
-              'float': 'float 6s ease-in-out infinite',
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'gradient': 'gradient 8s ease infinite',
-              'slide-up': 'slideUp 0.5s ease-out',
-              'slide-down': 'slideDown 0.5s ease-out',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0px)' },
-                '50%': { transform: 'translateY(-20px)' },
-              },
-              gradient: {
-                '0%, 100%': { backgroundPosition: '0% 50%' },
-                '50%': { backgroundPosition: '100% 50%' },
-              },
-              slideUp: {
-                '0%': { transform: 'translateY(100px)', opacity: '0' },
-                '100%': { transform: 'translateY(0)', opacity: '1' },
-              },
-              slideDown: {
-                '0%': { transform: 'translateY(-100px)', opacity: '0' },
-                '100%': { transform: 'translateY(0)', opacity: '1' },
-              },
-            },
-            backgroundSize: {
-              '300%': '300% 300%',
-            },
-          },
-        },
-      }
-    </script>
-    <link rel="stylesheet" href="./css/styles.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
         
@@ -693,33 +628,8 @@
         </div>
     </footer>
 
-    <script src="./public/js/main.js"></script>
-    
-    <!-- Chatbot con Gemini AI -->
-    <script src="./js/chatbot.js"></script>
-    <script>
-        // Cargar chatbot (la API Key se maneja en el backend en producción)
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-            
-            if (isProduction) {
-                // En producción (Vercel): no necesita API Key en frontend
-                console.log('🚀 Chatbot iniciado en modo producción (usando API endpoint)');
-                chatbot.init('production-mode');
-            } else {
-                // En desarrollo: cargar desde .env
-                const env = await envLoader.load();
-                const GEMINI_API_KEY = env.GEMINI_API_KEY;
-                
-                if (!GEMINI_API_KEY || GEMINI_API_KEY === 'TU_API_KEY_AQUI') {
-                    console.warn('⚠️ CHATBOT: Por favor, crea un archivo .env con tu Google Gemini API Key');
-                    console.warn('📝 Pasos:\n1. Copia .env.example como .env\n2. Reemplaza TU_API_KEY_AQUI con tu API Key real\n3. Obtén tu clave en: https://makersuite.google.com/app/apikey');
-                } else {
-                    chatbot.init(GEMINI_API_KEY);
-                }
-            }
-        });
-    </script>
+    <!-- Vite -->
+    <script type="module" src="/src/main.js"></script>
 
 </body>
 </html>

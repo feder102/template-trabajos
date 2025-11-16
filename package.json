@@ -1,25 +1,35 @@
 {
   "name": "webpro-template",
   "version": "1.0.0",
-  "description": "Plantilla profesional de desarrollo web para vender servicios a clientes",
-  "main": "index.html",
+  "type": "module",
+  "description": "Plantilla profesional de desarrollo web con Vite",
   "scripts": {
-    "start": "npx serve",
-    "dev": "npx live-server",
-    "build:css": "npx tailwindcss -i ./css/input.css -o ./public/css/styles.css --watch"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [
     "web",
     "template",
-    "tailwind",
+    "vite",
     "responsive",
     "professional"
   ],
-  "author": "Tu Nombre",
+  "author": "FedeC",
   "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3"
-  }
+    "@tailwindcss/postcss": "^4.1.17",
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18",
+    "vite": "^7.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feder102/template-trabajos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/feder102/template-trabajos/issues"
+  },
+  "homepage": "https://github.com/feder102/template-trabajos#readme"
 }
