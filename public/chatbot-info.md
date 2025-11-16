@@ -7,7 +7,7 @@ Esta información es utilizada por el chatbot de la página para responder pregu
 ## 📋 Información General
 
 ### Nombre de la Empresa
-**Tres Rabas - Desarrollo Web Profesional**
+**Desarrollo Web Profesional**
 
 ### Dueño
 Fede
@@ -16,7 +16,7 @@ Fede
 San Juan, Argentina
 
 ### Contacto Principal
-- **Email**: tresrabas@gmail.com
+- **Email**: feder102@gmail.com
 - **WhatsApp**: +54 9 264 531-7435
 - **Horario de Atención**: Lunes a Viernes, 9:00 AM - 6:00 PM (hora Argentina)
 
