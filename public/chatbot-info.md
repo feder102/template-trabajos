@@ -10,7 +10,7 @@ Esta información es utilizada por el chatbot de la página para responder pregu
 **Tres Rabas - Desarrollo Web Profesional**
 
 ### Dueño
-Guillermo
+Fede
 
 ### Ubicación
 San Juan, Argentina
