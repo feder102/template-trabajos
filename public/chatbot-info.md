@@ -28,18 +28,20 @@ San Juan, Argentina
 
 **Ideal para**: Empresas, profesionales y negocios que necesitan presencia web profesional.
 
-**Incluye**:
-- ✅ Sitio web de hasta 5 páginas
-- ✅ Diseño totalmente personalizado
-- ✅ Formulario de Contacto funcional
-- ✅ Optimización SEO básica
-- ✅ Integración con Blog o Galería
-- ✅ Mapa de Google Maps integrado
-- ✅ Enlaces a Redes Sociales
-- ✅ 1 año de hosting y dominio GRATIS
+**¿Qué incluye?**
+✅ Sitio web de hasta **5 páginas completas**
+✅ Diseño **100% personalizado** a tu marca
+✅ Formulario de Contacto funcional con notificaciones
+✅ Optimización SEO básica para Google
+✅ Integración con Blog o Galería de imágenes
+✅ Mapa de Google Maps integrado
+✅ Enlaces a Redes Sociales (Instagram, Facebook, etc.)
+✅ **1 año de hosting y dominio GRATIS** (.com.ar o .com)
 
 **Tiempo de entrega**: 2-3 semanas
 **Soporte**: 3 meses de soporte técnico incluido
+
+**💰 Forma de pago**: 50% al inicio + 50% al finalizar
 
 ---
 
