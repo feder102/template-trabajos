@@ -274,7 +274,49 @@ class GeminiChatbot {
 
     async callGeminiAPI(userMessage, retryCount = 0) {
         const maxRetries = 2;
-        const systemPrompt = `Eres un asistente virtual profesional para WebPro, una empresa de desarrollo web en San Juan, Argentina. 
+
+        try {
+            // Detectar si estamos en producción (Vercel) o desarrollo (localhost)
+            const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+            
+            let response;
+            
+            if (isProduction) {
+                // En producción: usar API endpoint de Vercel (más seguro)
+                response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: userMessage,
+                        contextInfo: this.contextInfo
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('❌ Error del API endpoint:', errorData);
+                    
+                    if (response.status === 429) {
+                        if (retryCount < maxRetries) {
+                            const waitTime = (retryCount + 1) * 5000;
+                            console.log(`⏳ Límite alcanzado. Esperando ${waitTime/1000}s antes de reintentar... (Intento ${retryCount + 1}/${maxRetries})`);
+                            await new Promise(resolve => setTimeout(resolve, waitTime));
+                            return this.callGeminiAPI(userMessage, retryCount + 1);
+                        }
+                        throw new Error('Límite de solicitudes alcanzado (429)');
+                    } else {
+                        throw new Error(`Error ${response.status} en la API`);
+                    }
+                }
+
+                const data = await response.json();
+                return data.response;
+                
+            } else {
+                // En desarrollo: llamada directa a Gemini (requiere .env)
+                const systemPrompt = `Eres un asistente virtual profesional para WebPro, una empresa de desarrollo web en San Juan, Argentina. 
 
 Tu misión es ayudar a los visitantes del sitio web respondiendo sus preguntas de manera amigable, profesional y concisa.
 
@@ -298,57 +340,56 @@ CONTACTO PRINCIPAL:
 
 Responde la siguiente pregunta del usuario:`;
 
-        try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${this.apiKey}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: `${systemPrompt}\n\nPregunta: ${userMessage}`
-                        }]
-                    }],
-                    generationConfig: {
-                        temperature: 0.7,
-                        maxOutputTokens: 800,
-                        topP: 0.95,
-                        topK: 40
-                    }
-                })
-            });
+                response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${this.apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `${systemPrompt}\n\nPregunta: ${userMessage}`
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            maxOutputTokens: 800,
+                            topP: 0.95,
+                            topK: 40
+                        }
+                    })
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                console.error('❌ Error de la API de Gemini:', errorData);
-                
-                if (response.status === 400) {
-                    throw new Error('API Key inválida o mal configurada');
-                } else if (response.status === 429) {
-                    // Si es 429 y no hemos excedido reintentos, esperar y reintentar
-                    if (retryCount < maxRetries) {
-                        const waitTime = (retryCount + 1) * 5000; // 5s, 10s
-                        console.log(`⏳ Límite alcanzado. Esperando ${waitTime/1000}s antes de reintentar... (Intento ${retryCount + 1}/${maxRetries})`);
-                        await new Promise(resolve => setTimeout(resolve, waitTime));
-                        return this.callGeminiAPI(userMessage, retryCount + 1);
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('❌ Error de la API de Gemini:', errorData);
+                    
+                    if (response.status === 400) {
+                        throw new Error('API Key inválida o mal configurada');
+                    } else if (response.status === 429) {
+                        if (retryCount < maxRetries) {
+                            const waitTime = (retryCount + 1) * 5000;
+                            console.log(`⏳ Límite alcanzado. Esperando ${waitTime/1000}s antes de reintentar... (Intento ${retryCount + 1}/${maxRetries})`);
+                            await new Promise(resolve => setTimeout(resolve, waitTime));
+                            return this.callGeminiAPI(userMessage, retryCount + 1);
+                        }
+                        throw new Error('Límite de solicitudes alcanzado (429)');
+                    } else if (response.status === 403) {
+                        throw new Error('API Key no tiene permisos o está deshabilitada');
+                    } else {
+                        throw new Error(`Error ${response.status} en la API de Gemini`);
                     }
-                    throw new Error('Límite de solicitudes alcanzado (429)');
-                } else if (response.status === 403) {
-                    throw new Error('API Key no tiene permisos o está deshabilitada');
-                } else {
-                    throw new Error(`Error ${response.status} en la API de Gemini`);
                 }
-            }
 
-            const data = await response.json();
-            
-            if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
-                console.error('❌ Respuesta inválida de Gemini:', data);
-                throw new Error('Respuesta inválida de la API');
+                const data = await response.json();
+                
+                if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+                    console.error('❌ Respuesta inválida de Gemini:', data);
+                    throw new Error('Respuesta inválida de la API');
+                }
+                
+                return data.candidates[0].content.parts[0].text;
             }
-            
-            return data.candidates[0].content.parts[0].text;
         } catch (error) {
             console.error('❌ Error en callGeminiAPI:', error);
             throw error;
