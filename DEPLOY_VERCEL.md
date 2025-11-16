@@ -7,8 +7,10 @@
 Ve a tu proyecto en Vercel → **Settings** → **Environment Variables** y agrega:
 
 ```
-GEMINI_API_KEY = tu_api_key_aqui
+GROQ_API_KEY = tu_api_key_de_groq
 ```
+
+**Obtén tu API Key gratis en**: https://console.groq.com/keys
 
 **Importante**: Marca las 3 opciones:
 - ✅ Production
@@ -60,7 +62,7 @@ La API Key está protegida en el backend de Vercel (archivo `/api/chat.js`) y NO
 
 1. **Verifica las variables de entorno**:
    - Ve a Vercel → Settings → Environment Variables
-   - Confirma que `GEMINI_API_KEY` esté configurada
+   - Confirma que `GROQ_API_KEY` esté configurada
 
 2. **Revisa los logs**:
    - Ve a Vercel → Deployments → (último deploy) → Function Logs

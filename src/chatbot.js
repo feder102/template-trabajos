@@ -1,5 +1,5 @@
-// Chatbot con Groq AI (Llama 3.1 - GRATIS y Rápido)
-export class GeminiChatbot {
+// Chatbot con Groq AI (Llama 3.3 - GRATIS y Rápido)
+export class GroqChatbot {
     constructor() {
         this.apiKey = '';
         this.messages = [];
@@ -20,7 +20,7 @@ export class GeminiChatbot {
 
     init(apiKey) {
         if (!apiKey) {
-            console.error('API Key de Gemini no configurada');
+            console.error('API Key de Groq no configurada');
             return;
         }
         this.apiKey = apiKey;
@@ -221,7 +221,7 @@ export class GeminiChatbot {
         this.addTypingIndicator();
 
         try {
-            const response = await this.callGeminiAPI(message);
+            const response = await this.callGroqAPI(message);
             this.removeTypingIndicator();
             this.addMessage(response);
             this.messages.push({ role: 'assistant', content: response });
@@ -267,7 +267,7 @@ export class GeminiChatbot {
         input.focus();
     }
 
-    async callGeminiAPI(userMessage, retryCount = 0) {
+    async callGroqAPI(userMessage, retryCount = 0) {
         const maxRetries = 2;
 
         try {
@@ -297,7 +297,7 @@ export class GeminiChatbot {
                             const waitTime = (retryCount + 1) * 5000;
                             console.log(`⏳ Límite alcanzado. Esperando ${waitTime/1000}s antes de reintentar... (Intento ${retryCount + 1}/${maxRetries})`);
                             await new Promise(resolve => setTimeout(resolve, waitTime));
-                            return this.callGeminiAPI(userMessage, retryCount + 1);
+                            return this.callGroqAPI(userMessage, retryCount + 1);
                         }
                         throw new Error('Límite de solicitudes alcanzado (429)');
                     }
@@ -368,7 +368,7 @@ Responde la siguiente pregunta del usuario:`;
                             const waitTime = (retryCount + 1) * 3000;
                             console.log(`⏳ Límite alcanzado. Esperando ${waitTime/1000}s... (Intento ${retryCount + 1}/${maxRetries})`);
                             await new Promise(resolve => setTimeout(resolve, waitTime));
-                            return this.callGeminiAPI(userMessage, retryCount + 1);
+                            return this.callGroqAPI(userMessage, retryCount + 1);
                         }
                         throw new Error('RATE_LIMIT');
                     }
@@ -385,7 +385,7 @@ Responde la siguiente pregunta del usuario:`;
                 return data.choices[0].message.content;
             }
         } catch (error) {
-            console.error('❌ Error en callGeminiAPI:', error);
+            console.error('❌ Error en callGroqAPI:', error);
             throw error;
         }
     }
@@ -417,4 +417,4 @@ Responde la siguiente pregunta del usuario:`;
 }
 
 // Instancia global del chatbot
-export const chatbot = new GeminiChatbot();
+export const chatbot = new GroqChatbot();
