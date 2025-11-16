@@ -56,7 +56,7 @@ San Juan, Argentina
 - ✅ Sistema de búsqueda y filtros
 - ✅ Carrito de Compras optimizado
 - ✅ Integración con Pasarelas de Pago (MercadoPago, transferencias, etc.)
-- ✅ Carga inicial de productos (hasta 50 productos)
+- ✅ Carga inicial de productos (hasta 20 productos)
 - ✅ 1 año de hosting y dominio GRATIS
 - ✅ Todo lo incluido en el Paquete Institucional
 
