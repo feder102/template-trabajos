@@ -1,11 +1,15 @@
 // Importar estilos
 import './styles.css'
 
-// Importar chatbot
+// Importar chatbot y theme
 import { chatbot } from './chatbot.js'
+import { initTheme } from './theme.js'
 
-// Menú móvil
+// Menú móvil y theme
 document.addEventListener('DOMContentLoaded', () => {
+    // Inicializar theme toggle
+    initTheme();
+    
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 

@@ -150,9 +150,9 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 antialiased transition-colors duration-300">
 
-    <header class="sticky top-0 bg-white/90 backdrop-blur-xl shadow-lg border-b border-gray-100/20 z-50 transition-all duration-300">
+    <header class="sticky top-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-lg border-b border-gray-100/20 dark:border-gray-800/20 z-50 transition-all duration-300">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3 group">
                 <div class="w-12 h-12 bg-gradient-to-br from-primary-500 via-primary-600 to-accent-600 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300">
@@ -161,31 +161,47 @@
                 <span class="text-2xl font-bold gradient-text font-display hover:scale-105 transition-transform cursor-pointer">Diseña con nosotros</span>
             </div>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#inicio" class="nav-link text-gray-700 hover:text-primary-600 transition-all duration-300 font-medium hover:scale-110 relative">Inicio</a>
-                <a href="#paquetes" class="nav-link text-gray-700 hover:text-primary-600 transition-all duration-300 font-medium hover:scale-110 relative">Paquetes</a>
-                <a href="#caracteristicas" class="nav-link text-gray-700 hover:text-primary-600 transition-all duration-300 font-medium hover:scale-110 relative">Características</a>
-                <a href="#proceso" class="nav-link text-gray-700 hover:text-primary-600 transition-all duration-300 font-medium hover:scale-110 relative">Proceso</a>
+                <a href="#inicio" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 font-medium hover:scale-110 relative">Inicio</a>
+                <a href="#paquetes" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 font-medium hover:scale-110 relative">Paquetes</a>
+                <a href="#caracteristicas" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 font-medium hover:scale-110 relative">Características</a>
+                <a href="#proceso" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 font-medium hover:scale-110 relative">Proceso</a>
+                <button id="theme-toggle" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-md" aria-label="Toggle theme">
+                    <svg class="w-5 h-5 text-gray-800 dark:text-gray-200 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    <svg class="w-5 h-5 text-gray-800 dark:text-gray-200 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </button>
                 <a href="#contacto" class="nav-link bg-gradient-to-r from-primary-600 to-accent-600 text-white px-6 py-2.5 rounded-full hover:from-primary-700 hover:to-accent-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-semibold">Contacto</a>
             </div>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+            <div class="md:hidden flex items-center gap-3">
+                <button id="theme-toggle-mobile" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-md" aria-label="Toggle theme">
+                    <svg class="w-5 h-5 text-gray-800 dark:text-gray-200 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    <svg class="w-5 h-5 text-gray-800 dark:text-gray-200 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-300 focus:outline-none">
                     <span class="text-2xl">&#9776;</span>
                 </button>
             </div>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg">
-            <a href="#inicio" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Inicio</a>
-            <a href="#paquetes" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Paquetes</a>
-            <a href="#caracteristicas" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Características</a>
-            <a href="#proceso" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Proceso</a>
-            <a href="#contacto" class="nav-link block px-6 py-3 text-gray-600 hover:bg-gray-100">Contacto</a>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-lg">
+            <a href="#inicio" class="nav-link block px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Inicio</a>
+            <a href="#paquetes" class="nav-link block px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Paquetes</a>
+            <a href="#caracteristicas" class="nav-link block px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Características</a>
+            <a href="#proceso" class="nav-link block px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Proceso</a>
+            <a href="#contacto" class="nav-link block px-6 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Contacto</a>
         </div>
     </header>
 
     <main>
         <section id="inicio" class="relative py-24 md:py-40 overflow-hidden">
             <!-- Fondo con gradiente animado -->
-            <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-purple-50 to-pink-50 opacity-80"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 opacity-80"></div>
             
             <!-- Elementos flotantes decorativos -->
             <div class="absolute top-20 right-10 w-96 h-96 bg-gradient-to-br from-primary-200 to-primary-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-float"></div>
@@ -197,13 +213,13 @@
             
             <div class="container mx-auto px-6 text-center relative z-10">
                                
-                <h1 class="text-6xl md:text-8xl font-black text-gray-900 fade-in-up leading-tight" style="animation-delay: 0.1s;">
+                <h1 class="text-6xl md:text-8xl font-black text-gray-900 dark:text-white fade-in-up leading-tight" style="animation-delay: 0.1s;">
                     Hacemos Crecer
                     <br>
                     <span class="gradient-text text-shadow font-display">Tu Negocio Digital</span>
                 </h1>
                 
-                <p class="max-w-4xl mx-auto text-xl md:text-3xl text-gray-600 mt-10 leading-relaxed fade-in-up font-light" style="animation-delay: 0.2s;">
+                <p class="max-w-4xl mx-auto text-xl md:text-3xl text-gray-600 dark:text-gray-300 mt-10 leading-relaxed fade-in-up font-light" style="animation-delay: 0.2s;">
                     Diseño y desarrollo web <span class="font-semibold text-primary-600">a la medida</span> de tus objetivos.
                     <br class="hidden md:block">
                     Soluciones que <span class="font-semibold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">convierten visitantes en clientes</span>.
@@ -226,10 +242,10 @@
                 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-24 max-w-5xl mx-auto">
                     <div class="text-center group cursor-pointer">
-                        <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-primary-100">
+                        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-primary-100 dark:border-primary-900">
                             <div class="stat-number group-hover:scale-110 transition-transform">10+</div>
-                            <p class="text-gray-700 font-semibold mt-3 text-lg">Proyectos</p>
-                            <p class="text-gray-500 text-sm mt-1">Completados</p>
+                            <p class="text-gray-700 dark:text-gray-300 font-semibold mt-3 text-lg">Proyectos</p>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Completados</p>
                         </div>
                     </div>
                     <div class="text-center group cursor-pointer">
@@ -257,11 +273,11 @@
             </div>
         </section>
 
-        <section id="paquetes" class="py-24 bg-gradient-to-b from-white to-gray-50">
+        <section id="paquetes" class="py-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto mb-20">
-                    <span class="inline-block bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-bold mb-4">💼 PLANES Y PRECIOS</span>
-                    <h2 class="text-5xl md:text-6xl font-black text-gray-900 mb-6">Nuestros Paquetes</h2>
+                    <span class="inline-block bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 px-4 py-2 rounded-full text-sm font-bold mb-4">💼 PLANES Y PRECIOS</span>
+                    <h2 class="text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-6">Nuestros Paquetes</h2>
                     <p class="text-xl text-gray-600 leading-relaxed">
                         Soluciones claras y escalables diseñadas para tu éxito.
                         <br>

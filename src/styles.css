@@ -36,7 +36,7 @@
         left: 0;
         width: 100%;
         height: 2px;
-        background: linear-gradient(90deg, #14b8a6, #a855f7);
+        background: linear-gradient(90deg, #1e40af, #d97706);
         border-radius: 2px;
     }
 
@@ -63,12 +63,12 @@
 
     .package-card:hover {
         transform: translateY(-16px) scale(1.02);
-        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25),
-                    0 0 0 1px rgba(20, 184, 166, 0.1);
+        box-shadow: 0 30px 60px -12px rgba(30, 64, 175, 0.3),
+                    0 0 0 1px rgba(30, 64, 175, 0.1);
     }
 
     .gradient-text {
-        background: linear-gradient(135deg, #14b8a6 0%, #a855f7 50%, #ec4899 100%);
+        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 50%, #d97706 100%);
         background-size: 300% 300%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -79,7 +79,7 @@
     .stat-number {
         font-size: 3.5rem;
         font-weight: 900;
-        background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
